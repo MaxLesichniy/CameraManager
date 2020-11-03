@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29C093DC23759D5D0040762D /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C093D923759D5C0040762D /* CameraPreviewView.swift */; };
+		29C093DD23759D5D0040762D /* PHPhotoLibrary+CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C093DA23759D5C0040762D /* PHPhotoLibrary+CameraManager.swift */; };
+		29C093DE23759D5D0040762D /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29C093DB23759D5C0040762D /* CameraManager.swift */; };
 		454C1F4719E82E2500C81915 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C1F4619E82E2500C81915 /* AppDelegate.swift */; };
 		454C1F4919E82E2500C81915 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C1F4819E82E2500C81915 /* ViewController.swift */; };
 		454C1F4C19E82E2500C81915 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 454C1F4A19E82E2500C81915 /* Main.storyboard */; };
@@ -16,7 +19,6 @@
 		D71DE8861AD677A7001E62F1 /* CameraManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D71DE8851AD677A7001E62F1 /* CameraManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D71DE8981AD677A8001E62F1 /* CameraManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D71DE8811AD677A7001E62F1 /* CameraManager.framework */; };
 		D71DE8991AD677A8001E62F1 /* CameraManager.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D71DE8811AD677A7001E62F1 /* CameraManager.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D71DE8A11AD677EF001E62F1 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 454C1F6619E8316A00C81915 /* CameraManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		29C093D923759D5C0040762D /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		29C093DA23759D5C0040762D /* PHPhotoLibrary+CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHPhotoLibrary+CameraManager.swift"; sourceTree = "<group>"; };
+		29C093DB23759D5C0040762D /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		454C1F4119E82E2500C81915 /* camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = camera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		454C1F4519E82E2500C81915 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		454C1F4619E82E2500C81915 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,7 +56,6 @@
 		454C1F4B19E82E2500C81915 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		454C1F4D19E82E2500C81915 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		454C1F5019E82E2500C81915 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		454C1F6619E8316A00C81915 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraManager.swift; path = ../camera/CameraManager.swift; sourceTree = "<group>"; };
 		45A23C171A656BDC00FB48F3 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		D71DE8811AD677A7001E62F1 /* CameraManager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CameraManager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D71DE8841AD677A7001E62F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -129,7 +133,9 @@
 			isa = PBXGroup;
 			children = (
 				D71DE8851AD677A7001E62F1 /* CameraManager.h */,
-				454C1F6619E8316A00C81915 /* CameraManager.swift */,
+				29C093DB23759D5C0040762D /* CameraManager.swift */,
+				29C093D923759D5C0040762D /* CameraPreviewView.swift */,
+				29C093DA23759D5C0040762D /* PHPhotoLibrary+CameraManager.swift */,
 				D71DE8831AD677A7001E62F1 /* Supporting Files */,
 			);
 			path = CameraManager;
@@ -211,7 +217,7 @@
 					};
 					D71DE8801AD677A7001E62F1 = {
 						CreatedOnToolsVersion = 6.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1120;
 					};
 				};
 			};
@@ -220,6 +226,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -269,7 +276,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D71DE8A11AD677EF001E62F1 /* CameraManager.swift in Sources */,
+				29C093DC23759D5D0040762D /* CameraPreviewView.swift in Sources */,
+				29C093DE23759D5D0040762D /* CameraManager.swift in Sources */,
+				29C093DD23759D5D0040762D /* PHPhotoLibrary+CameraManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,7 +421,7 @@
 		454C1F6119E82E2500C81915 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -431,7 +440,7 @@
 		454C1F6219E82E2500C81915 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -450,6 +459,7 @@
 		D71DE89B1AD677A8001E62F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -469,6 +479,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.imaginarycloud.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -479,6 +490,7 @@
 		D71DE89C1AD677A8001E62F1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
