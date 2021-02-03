@@ -24,6 +24,7 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
     fileprivate(set) lazy var focusGesture = UITapGestureRecognizer()
     fileprivate(set) lazy var exposureGesture = UIPanGestureRecognizer()
 
+    fileprivate(set) lazy var cameraGridView = CameraGridView()
     /**
      Property to determine if manager should enable pinch to zoom on camera preview.
      - note: Default value is **true**
@@ -55,6 +56,11 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
     
     weak var delegate: CameraPreviewViewDelegate?
     
+    @IBInspectable var showGrid: Bool = false {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     @IBOutlet public var customRenderView: UIView? {
         willSet {
@@ -114,6 +120,10 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
         self.exposureGesture.addTarget(self, action: #selector(_exposureGestureRecognizerHandler(_:)))
         addGestureRecognizer(self.exposureGesture)
         self.exposureGesture.delegate = self
+        
+        cameraGridView.isOpaque = false
+        cameraGridView.layer.zPosition = 20
+        addSubview(cameraGridView)
     }
     
     override open func layoutSubviews() {
@@ -121,10 +131,13 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
         videoPreviewLayer?.frame = bounds
         videoPreviewLayer?.isHidden = customRenderView != nil
         
+        cameraGridView.frame = bounds
+        cameraGridView.isHidden = !showGrid
+        
         customRenderView.map {
             $0.frame = bounds
-//            bringSubviewToFront($0)
         }
+
     }
     
     // MARK: - Gesture Handlers

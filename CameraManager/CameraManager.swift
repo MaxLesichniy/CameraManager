@@ -19,8 +19,12 @@ public enum CameraState {
     case ready, accessDenied, noDeviceFound, notDetermined
 }
 
-public enum CameraFlashMode: Int {
+public enum CameraFlashMode: Int, CaseIterable {
     case off, on, auto
+    
+    var flashMode: AVCaptureDevice.FlashMode {
+        return AVCaptureDevice.FlashMode(rawValue: rawValue) ?? .off
+    }
 }
 
 public enum CameraOutputMode: Int {
@@ -189,13 +193,13 @@ open class CameraManager: NSObject, UIGestureRecognizerDelegate {
     var onChangeISO: ((Float) -> Void)?
     
     /// Property to check video recording duration when in progress.
-    open var recordedDuration : CMTime { return movieFileOutput?.recordedDuration ?? CMTime.zero }
+    open var recordedDuration: CMTime { return movieFileOutput?.recordedDuration ?? CMTime.zero }
     
     /// Property to check video recording file size when in progress.
-    open var recordedFileSize : Int64 { return movieFileOutput?.recordedFileSize ?? 0 }
+    open var recordedFileSize: Int64 { return movieFileOutput?.recordedFileSize ?? 0 }
     
     /// Property to set focus mode when tap to focus is used (_focusStart).
-    open var focusMode : AVCaptureDevice.FocusMode = .continuousAutoFocus
+    open var focusMode: AVCaptureDevice.FocusMode = .continuousAutoFocus
     
     /// Property to set exposure mode when tap to focus is used (_focusStart).
     open var exposureMode: AVCaptureDevice.ExposureMode = .continuousAutoExposure
@@ -418,7 +422,7 @@ open class CameraManager: NSObject, UIGestureRecognizerDelegate {
      :param: imageCompletion Completion block containing the captured UIImage
      */
     @available(iOS 11.0, *)
-    open func capturePhoto(with settings: AVCapturePhotoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg.rawValue]),
+    open func capturePhoto(with settings: AVCapturePhotoSettings? = nil,
                            completion: @escaping CapturePhotoCompletion) {
         
         guard cameraIsSetup else {
@@ -426,16 +430,24 @@ open class CameraManager: NSObject, UIGestureRecognizerDelegate {
             return
         }
         
-        guard cameraOutputMode == .photo else {
+        guard cameraOutputMode == .photo,
+              let photoOutput = self.photoOutput else {
             _show(NSLocalizedString("Capture session output mode video", comment:""), message: NSLocalizedString("I can't take any picture", comment:""))
             return
         }
         
-        _updateIlluminationMode(flashMode)
-        
+        let resolvedSettings = settings ?? {
+            let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg.rawValue])
+            if #available(macCatalyst 14.0, *) {
+                if photoOutput.supportedFlashModes.contains(flashMode.flashMode) {
+                    settings.flashMode = flashMode.flashMode
+                }
+            }
+            return settings
+        }()
         
         performInSessionQueueIfNedded {
-            if let connection = self.photoOutput?.connection(with: .video),
+            if let connection = photoOutput.connection(with: .video),
                 connection.isEnabled {
                 if self.cameraPosition == .front && connection.isVideoMirroringSupported && self.shouldFlipFrontCameraImage {
                     connection.isVideoMirrored = true
@@ -447,7 +459,7 @@ open class CameraManager: NSObject, UIGestureRecognizerDelegate {
                 }
                 
                 self.capturePhotoCompletion = completion
-                self.photoOutput?.capturePhoto(with: settings, delegate: self)
+                photoOutput.capturePhoto(with: resolvedSettings, delegate: self)
             } else {
                 completion(nil, NSError())
             }
