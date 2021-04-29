@@ -11,13 +11,15 @@ import UIKit
 import AVFoundation
 import CoreImage
 
-public protocol CameraPreviewViewDelegate: class {
+@available(iOS 4.0, macCatalyst 14.0, *)
+@objc public protocol CameraPreviewViewDelegate: AnyObject {
     func cameraPreviewViewBeganZooming(_ view: CameraPreviewView)
     func cameraPreviewView(_ view: CameraPreviewView, applyZoom scale: CGFloat)
     func cameraPreviewView(_ view: CameraPreviewView, applyFocusAndExposure pointOfInterest: CGPoint)
     func cameraPreviewView(_ view: CameraPreviewView, applyExposureDuration value: Float)
 }
 
+@available(iOS 4.0, macCatalyst 14.0, *)
 open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
     
     fileprivate(set) lazy var zoomGesture = UIPinchGestureRecognizer()
@@ -29,7 +31,7 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
      Property to determine if manager should enable pinch to zoom on camera preview.
      - note: Default value is **true**
      */
-    open var shouldEnablePinchToZoom = true {
+    @IBInspectable open var shouldEnablePinchToZoom = true {
         didSet {
             zoomGesture.isEnabled = shouldEnablePinchToZoom
         }
@@ -38,7 +40,7 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
      Property to determine if manager should enable tap to focus on camera preview.
      - note: Default value is **true**
      */
-    open var shouldEnableTapToFocus = true {
+    @IBInspectable open var shouldEnableTapToFocus = true {
         didSet {
             focusGesture.isEnabled = shouldEnableTapToFocus
         }
@@ -48,13 +50,13 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
      Property to determine if manager should enable pan to change exposure/brightness.
      - note: Default value is **true**
      */
-    open var shouldEnableExposure = true {
+    @IBInspectable open var shouldEnableExposure = true {
         didSet {
             exposureGesture.isEnabled = shouldEnableExposure
         }
     }
     
-    weak var delegate: CameraPreviewViewDelegate?
+    @IBInspectable weak var delegate: CameraPreviewViewDelegate?
     
     @IBInspectable var showGrid: Bool = false {
         didSet {
@@ -78,6 +80,9 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
+    // TODO: need to implement
+    @IBOutlet public var overlayView: UIView?
+    
     public var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
         willSet {
             videoPreviewLayer?.removeFromSuperlayer()
@@ -95,7 +100,7 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
     fileprivate var cameraTransitionView: UIView?
     fileprivate var lastFocusRectangleLayer: CAShapeLayer?
     fileprivate var lastFocusPoint: CGPoint?
-    fileprivate var exposureValue: Float = 0.1 // EV
+    fileprivate var exposureValue: Float = 0 // EV
     fileprivate var translationY: Float = 0
     fileprivate var startPanPointInPreviewLayer: CGPoint?
     
@@ -111,15 +116,21 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
     
     private func commonInit() {
         clipsToBounds = true
+        
+        self.zoomGesture.isEnabled = self.shouldEnablePinchToZoom
         self.zoomGesture.addTarget(self, action: #selector(_zoomGestureRecognizerHandler(_:)))
-        addGestureRecognizer(self.zoomGesture)
         self.zoomGesture.delegate = self
+        addGestureRecognizer(self.zoomGesture)
+        
+        self.focusGesture.isEnabled = self.shouldEnableTapToFocus
         self.focusGesture.addTarget(self, action: #selector(_focusGestureRecognizerHandler(_:)))
-        addGestureRecognizer(self.focusGesture)
         self.focusGesture.delegate = self
+        addGestureRecognizer(self.focusGesture)
+        
+        self.exposureGesture.isEnabled = self.shouldEnableExposure
         self.exposureGesture.addTarget(self, action: #selector(_exposureGestureRecognizerHandler(_:)))
-        addGestureRecognizer(self.exposureGesture)
         self.exposureGesture.delegate = self
+        addGestureRecognizer(self.exposureGesture)
         
         cameraGridView.isOpaque = false
         cameraGridView.layer.zPosition = 20
@@ -285,6 +296,8 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
         addSubview(tempBlurView)
         bringSubviewToFront(tempBlurView)
         
+        cameraGridView.alpha = 0
+        
         let transitionView = snapshotView(afterScreenUpdates: true)
         
         tempBlurView.removeFromSuperview()
@@ -312,6 +325,7 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
         
         customRenderView?.alpha = 1.0
         videoPreviewLayer?.opacity = 1.0
+        cameraGridView.alpha = 1
         
         UIView.animate(withDuration: 0.25,
                        animations: {
@@ -406,6 +420,7 @@ open class CameraPreviewView: UIView, UIGestureRecognizerDelegate {
     
 }
 
+@available(iOS 4.0, macCatalyst 14.0, *)
 public extension CameraPreviewView {
     
     enum FlipTransition {

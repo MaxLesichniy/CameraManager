@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 
+@available(iOS 4.0, macCatalyst 14.0, *)
 public class CameraPreviewRenderView: UIView {
     
     weak var session: AVCaptureSession?
